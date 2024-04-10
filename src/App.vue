@@ -3,7 +3,7 @@
     <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
     <nav class="navbar navbar-dark bg-dark">
       <span class="navbar-brand mb-0 h2">Download Stats for GitHub</span>
-      <a href="https://aveek-saha.github.io/" class="navbar-brand mb-0 h1 text-right">
+      <a href="https://github.com/viktor44/github-stats" class="navbar-brand mb-0 h1 text-right" target="_blank">
         <i class="fab fa-github fa-inverse"></i>
       </a>
     </nav>

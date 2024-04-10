@@ -91,21 +91,26 @@ export default {
     }
   },
   methods: {
-    sendReq: function(){
+    sendReq: function() {
       var that = this
       this.loading = true;
       this.empty = false;
-      var options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
       axios.get(this.url + '/repos/' + this.username + "/" + this.repository + "/releases" )
         .then(function (response) {
           // console.log(response.data);
-          var data = response.data
-          // console.log(data);
+          const data = response.data
           that.grandTotal = 0
 
           for (let i = 0; i < data.length; i++) {
             var total = 0
             data[i].total = 0
+            data[i].assets = data[i].assets
+              .filter(a => {
+                  const fileName = a.name.toLowerCase();
+                  return !(a.name.startsWith('latest') && a.name.endsWith('.yml'))
+                            && !a.name.endsWith('.blockmap');
+              });
             for (let j = 0; j < data[i].assets.length; j++) {
               total += parseInt(data[i].assets[j].download_count)
             }
@@ -123,7 +128,7 @@ export default {
           if(response.data.length === 0){
             that.empty = true
           }
-          // console.log(data);          
+          console.log('XXXXXX', data);          
         })
         .catch(function (error) {
           // console.log(error);
@@ -134,7 +139,7 @@ export default {
         });
         
     },
-    getRepos: function(){
+    getRepos: function() {
       var that = this
       this.repos = []
       axios.get(this.url + '/users/' + this.username + "/repos" )
@@ -150,8 +155,7 @@ export default {
         .catch(function (error) {
         });
     },
-    setFocus: function()
-    {
+    setFocus: function() {
       this.$refs.search.focus();
     }
   }
