@@ -77,6 +77,13 @@ export default {
   components: {
     Card
   },
+  mounted: function() {
+    this.username = this.$route.params.user;
+    this.repository = this.$route.params.repository;
+    if (this.username && this.repository) {
+      this.sendReq();
+    }
+  },
   data() {
     return {
       username: "",
@@ -90,8 +97,20 @@ export default {
       url: "https://api.github.com"
     }
   },
+  computed: {
+    userParam() {
+      return this.$route.params.user
+    },
+    repositoryParam() {
+      return this.$route.params.repository
+    },
+  },
   methods: {
     sendReq: function() {
+      if (this.username !== this.userParam || this.repository !== this.repositoryParam) {
+        this.$router.push({ name: 'search', params: { user: this.username, repository: this.repository }});
+      }
+
       var that = this
       this.loading = true;
       this.empty = false;
@@ -128,7 +147,6 @@ export default {
           if(response.data.length === 0){
             that.empty = true
           }
-          console.log('XXXXXX', data);          
         })
         .catch(function (error) {
           // console.log(error);
